@@ -3,18 +3,16 @@
     <main>
       <router-view />
     </main>
-    <footer>
-      <van-tabbar v-model="active">
-        <van-tabbar-item
-          v-for="(item, index) in nav"
-          :key="index"
-          :to="item.path"
-          :icon="item.icon"
-        >
-          {{ item.title }}
-        </van-tabbar-item>
-      </van-tabbar>
-    </footer>
+    <van-tabbar v-model="active">
+      <van-tabbar-item
+        v-for="(item, index) in nav"
+        :key="index"
+        :to="item.path"
+        :icon="item.icon"
+      >
+        {{ item.title }}
+      </van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 
@@ -63,29 +61,5 @@ let active = $ref(nav.findIndex(e => e.path === route.path));
     box-sizing: border-box;
   }
 
-  footer {
-    height: calc(@footer-height - 1px);
-    border-top: 1px solid #f1f2f6;
-
-    nav {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 5px 0;
-      height: 100%;
-      box-sizing: border-box;
-
-      & > div {
-        text-align: center;
-
-        h5 {
-          margin-top: -.3em;
-          margin-bottom: 0;
-          font-weight: normal;
-          font-size: 12px;
-        }
-      }
-    }
-  }
 }
 </style>
