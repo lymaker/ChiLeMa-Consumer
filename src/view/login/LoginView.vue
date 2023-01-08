@@ -58,10 +58,12 @@
 
 <script setup>
 import {useAuthStore} from '@/store/auth.js';
+import {useUserStore} from '@/store/user.js';
 import {useRoute, useRouter} from 'vue-router';
 import {showNotify} from 'vant';
 
 const authStore = useAuthStore();
+const userStore = useUserStore();
 const router = useRouter();
 const route = useRoute();
 
@@ -83,7 +85,7 @@ const rules = {
 
 async function login() {
   await authStore.login(loginParam);
-  await authStore.userInfo();
+  await userStore.select();
   await router.push({
     name: route.query.redirect ?? 'index',
     replace: true

@@ -79,12 +79,12 @@
 </template>
 
 <script setup>
-import {useAuthStore} from '@/store/auth.js';
+import {useUserStore} from '@/store/user.js';
 import {useRouter} from 'vue-router';
 import {showNotify} from 'vant';
 import {checkUsernameApi} from '@/api/user.js';
 
-const authStore = useAuthStore();
+const userStore = useUserStore();
 const router = useRouter();
 
 const registerParam = $ref({
@@ -131,7 +131,7 @@ const registerParamRules = {
 
 async function register() {
   try {
-    await authStore.register(registerParam);
+    await userStore.create(registerParam);
     showNotify({type: 'success', message: '注册成功'});
     await router.push({
       name: 'login'

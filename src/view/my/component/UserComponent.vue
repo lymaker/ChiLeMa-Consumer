@@ -48,10 +48,13 @@
 import {useRouter} from 'vue-router';
 import {useAuthStore} from '@/store/auth.js';
 import {storeToRefs} from 'pinia';
+import {useUserStore} from '@/store/user.js';
 
 const router = useRouter();
 const authStore = useAuthStore();
-const {token, user} = storeToRefs(authStore);
+const userStore = useUserStore();
+const {token} = storeToRefs(authStore);
+const {user} = storeToRefs(userStore);
 
 function login() {
   router.push({

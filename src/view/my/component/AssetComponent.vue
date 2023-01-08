@@ -21,9 +21,15 @@
 <script setup>
 import {useAuthStore} from '@/store/auth.js';
 import {storeToRefs} from 'pinia';
+import {useUserStore} from '@/store/user.js';
 
 const authStore = useAuthStore();
-const {token, user} = storeToRefs(authStore);
+const userStore = useUserStore();
+const {token} = storeToRefs(authStore);
+const {user} = storeToRefs(userStore);
+if (token.value) {
+  userStore.select();
+}
 </script>
 
 <style lang="less" scoped>

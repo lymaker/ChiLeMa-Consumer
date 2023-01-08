@@ -158,15 +158,16 @@
 </template>
 
 <script setup>
-import {useAuthStore} from '@/store/auth.js';
+import {useUserStore} from '@/store/user.js';
 import {storeToRefs} from 'pinia';
 import {useRouter} from 'vue-router';
 import {imageApi} from '@/api/upload.js';
-import {updateFieldApi} from '@/api/user.js';
+import {useAuthStore} from '@/store/auth.js';
 
 const router = useRouter();
 const authStore = useAuthStore();
-const {user} = storeToRefs(authStore);
+const userStore = useUserStore();
+const {user} = storeToRefs(userStore);
 const updateForm = $ref();
 const dialog = $ref({
   show: false,
@@ -183,8 +184,8 @@ async function logout() {
 
 async function uploadUserAvatar({file}) {
   const {data: {url}} = await imageApi(file);
-  await updateFieldApi({avatarImageUrl: url});
-  await authStore.userInfo();
+  await userStore.update({avatarImageUrl: url});
+  await userStore.select();
 }
 
 async function updateUserField() {
@@ -195,8 +196,8 @@ async function updateUserField() {
   } else {
     const param = {};
     param[dialog.field] = dialog.value;
-    await updateFieldApi(param);
-    await authStore.userInfo();
+    await userStore.update(param);
+    await userStore.select();
   }
   dialog.show = false;
 }
