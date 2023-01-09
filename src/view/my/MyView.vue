@@ -11,8 +11,7 @@
 import UserComponent from '@/view/my/component/UserComponent.vue';
 import AssetComponent from '@/view/my/component/AssetComponent.vue';
 import MyComponent from '@/view/my/component/MyComponent.vue';
-import ReadmeComponent from '@/view/my/component/ReadmeComponent.vue';
-</script>
+import ReadmeComponent from '@/view/my/component/ReadmeComponent.vue';</script>
 
 <style lang="less" scoped>
 @component-bottom: 30px;
@@ -20,6 +19,7 @@ import ReadmeComponent from '@/view/my/component/ReadmeComponent.vue';
 .container {
   height: 100%;
   overflow-y: scroll;
+
   & > div:not(:last-of-type) {
     margin-bottom: @component-bottom;
     position: relative;

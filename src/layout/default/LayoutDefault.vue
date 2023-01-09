@@ -3,7 +3,10 @@
     <main>
       <router-view />
     </main>
-    <van-tabbar v-model="active">
+    <van-tabbar
+      v-model="active"
+      class="tabbar"
+    >
       <van-tabbar-item
         v-for="(item, index) in nav"
         :key="index"
@@ -50,7 +53,6 @@ let active = $ref(nav.findIndex(e => e.path === route.path));
 @import "@/index.less";
 
 @main-height: 93vh;
-@footer-height: 7vh;
 
 .layout {
 
@@ -59,6 +61,10 @@ let active = $ref(nav.findIndex(e => e.path === route.path));
     padding: @basic-view-padding-y @basic-view-padding-x;
     background: @basic-background-color;
     box-sizing: border-box;
+  }
+
+  .tabbar {
+    position: relative;
   }
 
 }
