@@ -8,6 +8,7 @@ import LoginView from '@/view/login/LoginView.vue';
 import RegisterView from '@/view/register/RegisterView.vue';
 import UserView from '@/view/user/UserView.vue';
 import {useAuthStore} from '@/store/auth.js';
+import NotFoundView from '@/view/error/NotFoundView.vue';
 
 const publicRoute = ['login', 'index', 'home', 'cart', 'order', 'my', 'register'];
 
@@ -54,6 +55,11 @@ const routes = [
         path: '/user',
         name: 'user',
         component: UserView
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'not-found',
+        component: NotFoundView
     }
 ];
 

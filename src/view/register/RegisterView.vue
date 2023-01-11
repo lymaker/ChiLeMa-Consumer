@@ -62,6 +62,24 @@
           placeholder="请输入手机号"
           size="large"
         />
+        <!--    验证码输入框    -->
+        <van-field
+          v-model="captchaParam.value"
+          :rules="registerParamRules.captcha"
+          clearable
+          label="验证码"
+          label-width="50px"
+          name="captcha"
+          placeholder="请输入验证码"
+          size="large"
+        >
+          <template #extra>
+            <captcha-image-component
+              type="register"
+              class="captcha-box"
+            />
+          </template>
+        </van-field>
       </van-cell-group>
       <!--   注册按钮   -->
       <van-button
@@ -81,8 +99,9 @@
 <script setup>
 import {useUserStore} from '@/store/user.js';
 import {useRouter} from 'vue-router';
-import {showNotify} from 'vant';
 import {checkUsernameApi} from '@/api/user.js';
+import CaptchaImageComponent from '@/component/CaptchaImageComponent.vue';
+import {verify} from '@/api/captcha.js';
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -93,6 +112,10 @@ const registerParam = $ref({
   password: null,
   email: null,
   phone: null
+});
+const captchaParam = $ref({
+  type: 'register',
+  value: null
 });
 const registerParamRules = {
   nickname: [
@@ -126,18 +149,21 @@ const registerParamRules = {
   phone: [
     {required: true, message: '请填写手机号'},
     {pattern: /^1[3456789]\d{9}$/, message: '请填写有效手机号'}
+  ],
+  captcha: [
+    {required: true, message: '请填写验证码'},
+    {pattern: /^\S*$/, message: '请填写有效验证码'}
   ]
 };
 
 async function register() {
   try {
+    await verify(captchaParam);
     await userStore.create(registerParam);
-    showNotify({type: 'success', message: '注册成功'});
     await router.push({
       name: 'login'
     });
   } catch (e) {
-    showNotify({type: 'danger', message: '注册失败'});
     console.error(e);
   }
 
@@ -170,6 +196,11 @@ async function register() {
 
     :deep(.van-cell-group--inset) {
       margin: 0;
+    }
+
+    .captcha-box {
+      width: 80px;
+      height: 28px;
     }
   }
 

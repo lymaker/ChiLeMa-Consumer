@@ -33,7 +33,7 @@
           class="avatar"
           height="50"
           round
-          src="https://clm-1300725964.cos.ap-guangzhou.myqcloud.com/avatar/default.png"
+          src="https://default-1300725964.cos.ap-guangzhou.myqcloud.com/avatar.png"
           width="50"
         />
         <h3>
@@ -60,7 +60,7 @@ function login() {
   router.push({
     name: 'login',
     query: {
-      redirect: 'user'
+      redirect: 'my'
     }
   });
 }

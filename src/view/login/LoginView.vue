@@ -7,31 +7,49 @@
         <van-field
           v-model="loginParam.username"
           :rules="rules.username"
-          name="username"
+          clearable
           label="用户名"
           label-width="50px"
+          name="username"
           placeholder="请输入用户名"
-          clearable
           size="large"
         />
         <!--    密码输入框    -->
         <van-field
           v-model="loginParam.password"
           :rules="rules.password"
-          label="密码"
-          name="password"
-          label-width="50px"
-          placeholder="请输入密码"
           clearable
+          label="密码"
+          label-width="50px"
+          name="password"
+          placeholder="请输入密码"
           size="large"
           type="password"
         />
+        <!--  验证码  -->
+        <van-field
+          v-model="captchaParam.value"
+          :rules="rules.captcha"
+          label="验证码"
+          label-width="50px"
+          name="captcha"
+          placeholder="请输入验证码"
+          size="large"
+          style="align-items: center"
+        >
+          <template #extra>
+            <captcha-image-component
+              :type="captchaParam.type"
+              class="captcha-box"
+            />
+          </template>
+        </van-field>
       </van-cell-group>
       <!--   记住我复选框   -->
       <van-checkbox
         v-model="loginParam.isRemember"
-        name="remember"
         class="remember-checkbox"
+        name="remember"
       >
         记住我
       </van-checkbox>
@@ -61,6 +79,8 @@ import {useAuthStore} from '@/store/auth.js';
 import {useUserStore} from '@/store/user.js';
 import {useRoute, useRouter} from 'vue-router';
 import {showNotify} from 'vant';
+import CaptchaImageComponent from '@/component/CaptchaImageComponent.vue';
+import {verify} from '@/api/captcha.js';
 
 const authStore = useAuthStore();
 const userStore = useUserStore();
@@ -72,6 +92,10 @@ const loginParam = $ref({
   password: 'a12345678',
   isRemember: false
 });
+const captchaParam = $ref({
+  type: 'login',
+  value: null
+});
 const rules = {
   username: [
     {required: true, message: '请填写用户名'},
@@ -80,10 +104,15 @@ const rules = {
   password: [
     {required: true, message: '请填写密码'},
     {pattern: /^.{8,18}$/, message: '请填写有效密码'}
+  ],
+  captcha: [
+    {required: true, message: '请填写验证码'},
+    {pattern: /^\S*$/, message: '请填写有效验证码'}
   ]
 };
 
 async function login() {
+  await verify(captchaParam);
   await authStore.login(loginParam);
   await userStore.select();
   await router.push({
@@ -113,7 +142,7 @@ async function login() {
     top: 20%;
     font-weight: 400;
     left: 10%;
-   }
+  }
 
   form {
     position: absolute;
@@ -124,6 +153,11 @@ async function login() {
 
     :deep(.van-cell-group--inset) {
       margin: 0;
+    }
+
+    .captcha-box {
+      width: 80px;
+      height: 28px;
     }
   }
 
