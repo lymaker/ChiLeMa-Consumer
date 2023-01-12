@@ -31,9 +31,8 @@ onMounted(async () => {
 
 async function flushCaptcha() {
   clearInterval(taskFuncId);
-  const {data} = await generate(props.type);
-  const duration = data.duration;
-  src = data.image;
+  const {data: {image, duration}} = await generate(props.type);
+  src = image;
   taskFuncId = setInterval(flushCaptcha, duration * 1000);
 }
 </script>
