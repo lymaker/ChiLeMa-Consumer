@@ -24,10 +24,15 @@ export default defineConfig({
     server: {
         port: 8000,
         proxy: {
-            '/api': {
+            '/api/local': {
                 target: 'http://localhost:8888/api',
                 changeOrigin: true,
-                rewrite: path => path.replaceAll('/api', '')
+                rewrite: path => path.replaceAll('/api/local', '')
+            },
+            '/api/map': {
+                target: 'https://apis.map.qq.com',
+                changeOrigin: true,
+                rewrite: path => path.replaceAll('/api/map', '')
             }
         }
     }

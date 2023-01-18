@@ -66,5 +66,11 @@ let active = $ref(nav.findIndex(e => e.path === route.path));
     height: @layout-tabbar;
   }
 
+  @media screen and (orientation:portrait) and (max-height: 670px) {
+    .tabbar {
+      display: none;
+    }
+  }
+
 }
 </style>

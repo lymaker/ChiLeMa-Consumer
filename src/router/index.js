@@ -9,6 +9,9 @@ import RegisterView from '@/view/register/RegisterView.vue';
 import UserView from '@/view/user/UserView.vue';
 import {useAuthStore} from '@/store/auth.js';
 import NotFoundView from '@/view/error/NotFoundView.vue';
+import AddressView from '@/view/address/AddressView.vue';
+import FormChild from '@/view/address/child/FormChild.vue';
+import AddressChild from '@/view/address/child/AddressChild.vue';
 
 const publicRoute = ['login', 'index', 'home', 'cart', 'order', 'my', 'register'];
 
@@ -57,6 +60,26 @@ const routes = [
         component: UserView
     },
     {
+        path: '/address',
+        redirect: {
+            name: 'address-form'
+        },
+        name: 'address',
+        component: AddressView,
+        children: [
+            {
+                path: 'form',
+                name: 'address-form',
+                component: FormChild
+            },
+            {
+                path: 'select',
+                name: 'address-select',
+                component: AddressChild
+            }
+        ]
+    },
+    {
         path: '/:pathMatch(.*)*',
         name: 'not-found',
         component: NotFoundView
@@ -73,14 +96,19 @@ const router = createRouter({
  */
 router.beforeEach((to, from) => {
     const authStore = useAuthStore();
-    if (!publicRoute.includes(to.name) && !authStore.token) {
-        return {
-            name: 'login',
-            query: {
-                redirect: from.name
-            }
-        };
+    const loginRoute = {
+        name: 'login',
+        query: {
+            redirect: from.name
+        }
+    };
+    if (publicRoute.includes(to.name)) {
+        return true;
     }
+    if (!authStore.token) {
+        return loginRoute;
+    }
+    return authStore.check() || loginRoute;
 });
 
 export default router;

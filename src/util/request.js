@@ -4,7 +4,6 @@ import {useAuthStore} from '@/store/auth.js';
 import {clear} from '@/util/storage.js';
 
 // axios.defaults.timeout = 3000;
-axios.defaults.baseURL = import.meta.env.DEV ? '/api' : import.meta.env.VITE_API_URL;
 
 axios.interceptors.request.use(
     config => {

@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "md5": "^2.3.0",
+    "nanoid": "^4.0.0",
     "axios": "^1.2.2",
     "pinia": "^2.0.28",
     "store2": "^2.14.2",
